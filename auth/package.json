@@ -1,0 +1,21 @@
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "description": "Authentication for ecommerce microservice app",
+  "main": "src/index.js",
+  "author": "Frank Gerold",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@types/express": "^4.17.6",
+    "express": "^4.17.1",
+    "typescript": "^3.9.6"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.50"
+  },
+  "scripts": {
+    "dev": "ts-node-dev src/index.ts",
+    "start": "node"
+  }
+}
