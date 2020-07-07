@@ -4,7 +4,18 @@ import mongoose from "mongoose";
 interface UserAttrs {
   email: string;
   password: string;
-}
+};
+
+// Interface desctibing properties of User Model
+interface UserModel extends mongoose.Model<UserDoc> {
+  build(attrs: UserAttrs): UserDoc;
+};
+
+// Interface describing User document
+interface UserDoc extends mongoose.Document {
+  email: string;
+  password: string;
+};
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -17,11 +28,11 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-const User = mongoose.model('User', userSchema);
-
-// Implement type checking for TS and Mongoose compatibility!
-const buildUser = (attrs: UserAttrs) => {
+userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
 
-export { User, buildUser };
+const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
+
+
+export { User };
