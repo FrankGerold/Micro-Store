@@ -4,6 +4,8 @@ import { body, validationResult } from "express-validator";
 import { DatabaseConnectionError } from "../errors/databaseConnectionError";
 import { RequestValidationError } from "../errors/requestValidationError";
 
+import { User } from "../models/user";
+
 const router = express.Router();
 
 router.post('/api/users/signup', [
@@ -14,7 +16,7 @@ router.post('/api/users/signup', [
     .trim()
     .isLength({ min: 8 })
     .withMessage('Password has to be at least 8 characters')
-  ], (req: Request, res: Response) => {
+  ], async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -23,10 +25,23 @@ router.post('/api/users/signup', [
 
     const { email, password } = req.body;
 
-    console.log('Creating User');
-    throw new DatabaseConnectionError();
+    const existingUser = await User.findOne({ email })
 
-    res.send({});
+    if (existingUser) {
+      console.log('Email already in use');
+      return res.send({})
+    }
+
+    const user = User.build({ email, password });
+
+    await user.save();
+
+    res.status(201).send(user);
+
+    // console.log('Creating User');
+    // throw new DatabaseConnectionError();
+    //
+    // res.send({});
 
   });
 
