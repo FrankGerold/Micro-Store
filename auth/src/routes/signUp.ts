@@ -3,6 +3,7 @@ import { body, validationResult } from "express-validator";
 
 import { DatabaseConnectionError } from "../errors/databaseConnectionError";
 import { RequestValidationError } from "../errors/requestValidationError";
+import { BadRequestError } from "../errors/badRequestError";
 
 import { User } from "../models/user";
 
@@ -28,8 +29,9 @@ router.post('/api/users/signup', [
     const existingUser = await User.findOne({ email })
 
     if (existingUser) {
-      console.log('Email already in use');
-      return res.send({})
+      // console.log('Email already in use');
+      // return res.send({})
+      throw new BadRequestError('Email is already in use!')
     }
 
     const user = User.build({ email, password });
