@@ -1,10 +1,9 @@
 import express, { Request, Response } from "express";
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 import jwt from 'jsonwebtoken';
 
-import { DatabaseConnectionError } from "../errors/databaseConnectionError";
-import { RequestValidationError } from "../errors/requestValidationError";
 import { BadRequestError } from "../errors/badRequestError";
+import { validateRequest } from '../middleware/validateRequests'
 
 import { User } from "../models/user";
 
@@ -18,13 +17,7 @@ router.post('/api/users/signup', [
     .trim()
     .isLength({ min: 8 })
     .withMessage('Password has to be at least 8 characters')
-  ], async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      throw new RequestValidationError(errors.array());
-    }
-
+  ], validateRequest, async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email })
