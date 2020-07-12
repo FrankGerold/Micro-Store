@@ -26,10 +26,18 @@
     "jest": "^26.1.0",
     "mongodb-memory-server": "^6.6.1",
     "supertest": "^4.0.2",
-    "ts-jest": "^26.1.1",
+    "ts-jest": "^26.1.1"
   },
   "scripts": {
     "dev": "ts-node-dev --poll src/index.ts",
-    "start": "ts-node-dev --poll src/index.ts"
+    "start": "ts-node-dev --poll src/index.ts",
+    "test": "jest --watchAll --no-cache"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   }
 }
