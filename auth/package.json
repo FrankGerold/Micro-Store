@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "ts-node-dev": "^1.0.0-pre.50",
     "@types/cookie-session": "2.0.39",
     "@types/express": "^4.17.6",
     "@types/jsonwebtoken": "^8.5.0",
@@ -20,10 +21,15 @@
     "typescript": "^3.9.6"
   },
   "devDependencies": {
-    "ts-node-dev": "^1.0.0-pre.50"
+    "@types/jest": "^26.0.4",
+    "@types/supertest": "^2.0.10",
+    "jest": "^26.1.0",
+    "mongodb-memory-server": "^6.6.1",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.1.1",
   },
   "scripts": {
     "dev": "ts-node-dev --poll src/index.ts",
-    "start": "node"
+    "start": "ts-node-dev --poll src/index.ts"
   }
 }

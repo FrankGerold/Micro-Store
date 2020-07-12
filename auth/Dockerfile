@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY package.json .
 
-RUN yarn install
+RUN yarn install --production=true
 
 COPY . .
 
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]
