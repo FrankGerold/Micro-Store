@@ -75,6 +75,6 @@ it('sets a cookie after a successful signup', async () => {
       password: '123123123'
     })
     .expect(201);
-    console.log('Node Env:', process.env.NODE_ENV)
+    
   expect(response.get('Set-Cookie')).toBeDefined();
 });
