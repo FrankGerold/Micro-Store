@@ -24,3 +24,17 @@ build:
           - src: 'src/**/*.ts'
 
             dest: .
+
+
+    - image: callipygious/microstore-client
+
+      context: client
+
+      docker:
+        dockerfile: Dockerfile
+
+      sync:
+        manual:
+          - src: '**/*.js'
+
+            dest: .
