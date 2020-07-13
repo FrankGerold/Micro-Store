@@ -1,0 +1,17 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "Frontend of ecommerce site - React and NextJS",
+  "main": "index.js",
+  "author": "Frank Gerold",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "next": "^9.4.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "scripts": {
+    "dev": "next"
+  }
+}
