@@ -1,4 +1,5 @@
 import request from "supertest";
+
 import { app } from '../../app';
 
 it('completes signout request with 200', async () => {
