@@ -2,7 +2,7 @@ import buildClient from '../api/buildClient'
 
 const FrontPage = ({ currentUser }) => {
   console.log('Current user:', currentUser);
-  return <h1>home</h1>
+  return currentUser ? <h1>You are signed in, {currentUser.email}!</h1> : <h1>You are not signed in...</h1>
 };
 
 FrontPage.getInitialProps = async (context) => {
