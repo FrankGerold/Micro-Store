@@ -1,7 +1,7 @@
 {
-  "name": "auth",
+  "name": "tickets",
   "version": "1.0.0",
-  "description": "Authentication for ecommerce microservice app",
+  "description": "Ticket management service for microservices ecommerce app",
   "main": "src/index.js",
   "author": "Frank Gerold",
   "license": "MIT",
