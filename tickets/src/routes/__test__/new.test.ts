@@ -28,13 +28,48 @@ it('doesn\'t throw a 401 if user is signed in', async () => {
 });
 
 it('returns an error if an invalid title is provided', async () => {
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', getAuthCookie())
+    .send({
+      title: '',
+      price: 100
+    })
+    .expect(400);
 
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', getAuthCookie())
+    .send({
+      price: 100
+    })
+    .expect(400);
 });
 
 it('returns an error if an invalid price is detected', async () => {
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', getAuthCookie())
+    .send({
+      title: 'asdfjkl;',
+      price: -5
+    })
+    .expect(400);
 
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', getAuthCookie())
+    .send({
+      title: 'Test test'
+    })
+    .expect(400);
 });
 
 it('creates a ticket with valid inputs', async () => {
-
+  await request(app)
+    .post('/api/tickets')
+    .send({
+      title: 'test title',
+      price: 100
+    })
 });
