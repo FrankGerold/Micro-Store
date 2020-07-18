@@ -8,7 +8,7 @@ const start = async () => {
   }
 
   try {
-    await mongoose.connect('mongodb://auth-mongo-service:27017/auth', {
+    await mongoose.connect('mongodb://tickets-mongo-service:27017/tickets', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true
@@ -20,13 +20,10 @@ const start = async () => {
   };
 };
 
-app.get('/api/users/hello', (req, res) => {
-  res.send('Hi there :)')
-});
-
 
 app.listen(2222, () => {
   console.log('Tickets listening on port 2222');
 })
+
 
 start();
