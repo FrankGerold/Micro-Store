@@ -52,7 +52,7 @@ it('returns an error if an invalid price is detected', async () => {
     .post('/api/tickets')
     .set('Cookie', getAuthCookie())
     .send({
-      title: 'asdfjkl;',
+      title: 'Valid Test Title',
       price: -5
     })
     .expect(400);
@@ -61,7 +61,7 @@ it('returns an error if an invalid price is detected', async () => {
     .post('/api/tickets')
     .set('Cookie', getAuthCookie())
     .send({
-      title: 'Test test'
+      title: 'Valid Test Title'
     })
     .expect(400);
 });
