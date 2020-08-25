@@ -1,5 +1,6 @@
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 import { app } from '../app'
 
@@ -16,7 +17,7 @@ export const getAuthCookie = () => {
 
   // build a JWT Payload { id, email }
   const payload = {
-    id: '420frank420',
+    id: new mongoose.Types.ObjectId().toHexString(),
     email
   };
 
@@ -34,4 +35,4 @@ export const getAuthCookie = () => {
 
   // Return string version of encoded cookie
   return `express:sess=${base64}`
-}
+};
