@@ -127,6 +127,7 @@ it('updates the ticket when given valid inputs', async () => {
 		title: 'Updated ticket!',
 		price: 4321
 	}
+	
 	await request(app)
 		.put(`/api/tickets/${ticketId}`)
 		.set('Cookie', cookie)

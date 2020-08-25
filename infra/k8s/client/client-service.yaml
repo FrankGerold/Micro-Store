@@ -16,6 +16,6 @@ spec:
 
       protocol: TCP
 
-      port: 3000
+      port: 3333
 
-      targetPort: 3000
+      targetPort: 3333
