@@ -8,7 +8,6 @@ FrontPage.getInitialProps = async context => {
   const client = buildClient(context)
 
   const { data } = await client.get('/api/users/currentuser')
-  console.log('Index Data:', data);
   return data;
 };
 
