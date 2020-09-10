@@ -24,6 +24,9 @@
   "devDependencies": {
     "@types/jest": "^26.0.4",
     "@types/supertest": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "eslint": "^7.8.1",
     "jest": "^26.1.0",
     "mongodb-memory-server": "^6.6.1",
     "supertest": "^4.0.2",
