@@ -1,6 +1,6 @@
 {
     "name": "client",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Frontend of ecommerce site - React and NextJS",
     "main": "index.js",
     "author": "Frank Gerold",
