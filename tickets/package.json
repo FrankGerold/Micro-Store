@@ -1,6 +1,6 @@
 {
   "name": "tickets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ticket management service for microservices ecommerce app",
   "main": "src/index.js",
   "author": "Frank Gerold",
