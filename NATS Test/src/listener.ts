@@ -11,7 +11,9 @@ stan.on('connect', () => {
   console.log('Listener connected to NATS')
 
   const options = stan.subscriptionOptions()
-    .setManualAckMode(true);
+    .setManualAckMode(true)
+    .setDeliverAllAvailable()
+    .setDurableName('Ticket-Accounting');
 
   const subscription = stan.subscribe(
     'ticket:created',
