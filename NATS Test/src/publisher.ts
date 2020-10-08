@@ -9,8 +9,8 @@ const client = nats.connect('ticketing', randomBytes(4).toString('hex'), {
   url: 'http://localhost:4222'
 });
 
-client.on('connect', () => {
-  console.log('publisher connected to nats', 'hi!');
+client.on('connect', async () => {
+  console.log('publisher connected to nats', 'hi!', ':)');
 
   const data = {
     id: '420',
@@ -20,6 +20,11 @@ client.on('connect', () => {
 
   const publisher = new TicketCreatedPublisher(client);
 
-  publisher.publish(data);
+  try {
+    await publisher.publish(data);
+  }
 
+  catch (err) {
+    console.error(err);
+  };
 });
