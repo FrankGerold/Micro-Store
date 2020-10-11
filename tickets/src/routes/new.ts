@@ -4,8 +4,11 @@ import { body } from 'express-validator';
 import { requireAuth, validateRequest } from '@microstore/common';
 import { Ticket } from '../models/ticket';
 import { TicketCreatedPublisher } from '../events/publishers/ticketCreatedPublisher';
+import { natsWrapper } from '../natsWrapper';
 
 const router = express.Router();
+
+
 
 router.post('/api/tickets', requireAuth, [
   body('title')
@@ -26,13 +29,13 @@ router.post('/api/tickets', requireAuth, [
 
   await ticket.save();
 
-  new TicketCreatedPublisher(client).publish({
+  new TicketCreatedPublisher(natsWrapper.client).publish({
     id: ticket.id,
     title: ticket.title,
     price: ticket.price,
     userId: ticket.userId
   });
-
+  
   res.status(201).send(ticket);
 });
 
