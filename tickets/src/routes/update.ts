@@ -7,11 +7,13 @@ import {
 	requireAuth,
 	NotAuthorizedError
  } from '@microstore/common';
- import { Ticket } from '../models/ticket';
+import { Ticket } from '../models/ticket';
+import { TicketUpdatedPublisher } from '../events/publishers/ticketUpdatePublisher';
+import { natsWrapper } from '../natsWrapper';
 
- const router = express.Router();
+const router = express.Router();
 
- router.put('/api/tickets/:id', requireAuth, [
+router.put('/api/tickets/:id', requireAuth, [
 	body('title')
 		 .not()
 		 .isEmpty()
@@ -38,7 +40,15 @@ import {
 
 	 await ticket.save();
 
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId
+    });
+
 	 res.send(ticket);
  });
 
- export { router as updateTicketRouter };
+export { router as updateTicketRouter };
+
