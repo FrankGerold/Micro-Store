@@ -2,8 +2,8 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 
 import { requireAuth, validateRequest } from '@microstore/common';
-import { getAuthCookie } from '../test/getAuthCookie';
 import { Ticket } from '../models/ticket';
+import { TicketCreatedPublisher } from '../events/publishers/ticketCreatedPublisher';
 
 const router = express.Router();
 
@@ -25,6 +25,13 @@ router.post('/api/tickets', requireAuth, [
   });
 
   await ticket.save();
+
+  new TicketCreatedPublisher(client).publish({
+    id: ticket.id,
+    title: ticket.title,
+    price: ticket.price,
+    userId: ticket.userId
+  });
 
   res.status(201).send(ticket);
 });
