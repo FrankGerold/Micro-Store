@@ -21,3 +21,8 @@
 - Set up separate github repo that corresponds with Node published version
 - Make it a true submodule here
 - Possibly separate general NATS integration logic here for all the other services
+### General
+- Event Publishing Error Handling:
+	- Set up additional DB collection for each service, monitoring events
+	- nats publisher code monitors this collection.
+	- Utilize Mongo DB Transaction api
