@@ -52,3 +52,17 @@ build:
           - src: 'src/**/*.ts'
 
             dest: .
+
+
+    - image: callipygious/microstore-orders
+
+      context: orders
+
+      docker:
+        dockerfile: Dockerfile
+
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+
+            dest: .
