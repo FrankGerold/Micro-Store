@@ -5,6 +5,7 @@ import { app } from '../../app';
 import { getAuthCookie } from '../../test/getAuthCookie';
 import { Ticket } from '../../models/ticket'
 import { validateRequest } from '@microstore/common';
+import { natsWrapper } from '../../natsWrapper';
 
 it('returns a 404 if the provided id doesn\'t exist', async () => {
 	const id = new mongoose.Types.ObjectId().toHexString();
@@ -141,4 +142,30 @@ it('updates the ticket when given valid inputs', async () => {
 
 });
 
+it('publishes an event on update', async () => {
+  const cookie = getAuthCookie();
 
+	const response = await request(app)
+		.post('/api/tickets')
+		.set('Cookie', cookie)
+		.send({
+			title: 'New Test Ticket',
+			price: 420
+		})
+		.expect(201);
+
+	const ticketId = response.body.id;
+
+	const updatedTicket = {
+		title: 'Event ticket!',
+		price: 12345
+	}
+	
+	await request(app)
+		.put(`/api/tickets/${ticketId}`)
+		.set('Cookie', cookie)
+		.send(updatedTicket)
+		.expect(200);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
