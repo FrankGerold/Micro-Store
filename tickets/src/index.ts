@@ -10,9 +10,22 @@ const start = async () => {
   if (!process.env.MONGO_URI) {
     throw new Error('Mongo URI env var must be defined!')
   }
+  if (!process.env.NATS_URL) {
+    throw new Error('NATS URL env var must be defined!')
+  }
+  if (!process.env.NATS_CLUSTER_ID) {
+    throw new Error('NATS Cluster ID env var must be defined!')
+  }
+  if (!process.env.NATS_CLIENT_ID) {
+    throw new Error('NATS Client ID env var must be defined!')
+  }
 
   try {
-    await natsWrapper.connect('ticketing', 'TicketBoiii', 'http://nats-service:4222');
+    await natsWrapper.connect(
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL
+    );
 
     natsWrapper.client.on('close', () => {
       console.log('NATS connection closed!');
@@ -22,11 +35,15 @@ const start = async () => {
     process.on('SIGINT', () => natsWrapper.client.close());
     process.on('SIGTERM', () => natsWrapper.client.close());
 
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true
-    })
+    await mongoose.connect(
+      process.env.MONGO_URI,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+      }
+    );
+
     console.log('Connected to MongoDB!');
 
   } catch (err) {
