@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import { TicketDoc } from './ticket'
 import { OrderStatus } from '@microstore/common';
 
+export { OrderStatus };
+
 interface OrderAttrs {
   userId: string;
   status: OrderStatus;
