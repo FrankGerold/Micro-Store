@@ -38,6 +38,18 @@ spec:
                   number: 2222
 
 
+          - path: /api/orders/
+
+            pathType: Prefix
+
+            backend:
+              service:
+                name: orders-service
+
+                port:
+                  number: 4444
+
+                  
           - path: /
 
             pathType: Prefix
