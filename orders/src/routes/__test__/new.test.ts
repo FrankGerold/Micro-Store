@@ -126,3 +126,5 @@ it('persists order to DB correctly', async () => {
   // with toEqual. Had to grab the original _id instead.
   expect(checkDb!.ticket).toEqual(ticket._id);
 });
+
+it.todo('Creates an event after order creation')
