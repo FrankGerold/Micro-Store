@@ -2,9 +2,11 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 
-import { requireAuth, validateRequest, NotFoundError, OrderStatus, BadRequestError } from '@microstore/common';
+import { requireAuth, validateRequest, NotFoundError, BadRequestError } from '@microstore/common';
 import { Ticket } from '../models/ticket';
-import { Order } from '../models/order';
+import { Order, OrderStatus } from '../models/order';
+import { OrderCreatedPublisher } from '../events/publishers/orderCreatedPublisher';
+import { natsWrapper } from '../natsWrapper';
 
 const router = express.Router();
 
@@ -57,6 +59,17 @@ router.post('/api/orders', requireAuth, [
 
 
   // Publish event
+  new OrderCreatedPublisher(natsWrapper.client)
+    .publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price
+      }
+    });
 
   res.status(201)
     .send(order);
