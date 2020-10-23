@@ -5,6 +5,7 @@ import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 import { getAuthCookie } from '../../test/getAuthCookie';
 import { Order, OrderStatus } from '../../models/order';
+import { natsWrapper } from '../../natsWrapper';
 
 it('throws an error if order doesnt exist', async () => {
   await request(app)
@@ -63,4 +64,27 @@ it('marks an order as cancelled', async () => {
   expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });
 
-it.todo('creates an event after order cancellation')
+it('creates an event after order cancellation', async () => {
+  const ticket = await Ticket.create({
+    title: 'test tix',
+    price: 12345
+  });
+
+  const user = getAuthCookie();
+
+  const { body: order } = await request(app)
+    .post('/api/orders')
+    .set('Cookie', user)
+    .send({ ticketId: ticket.id })
+    .expect(201);
+
+  await request(app)
+    .patch(`/api/orders/${order.id}`)
+    .set('Cookie', user)
+    .send()
+    .expect(200);
+
+  // Here, 2 messages should have been published:
+  // one for creation, and then one for cancellation.
+  expect(natsWrapper.client.publish).toHaveBeenCalledTimes(2);
+});
