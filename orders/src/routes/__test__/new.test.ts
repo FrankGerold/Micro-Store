@@ -127,4 +127,17 @@ it('persists order to DB correctly', async () => {
   expect(checkDb!.ticket).toEqual(ticket._id);
 });
 
-it.todo('Creates an event after order creation')
+it('Creates an event after order creation', async () => {
+  const ticket = await Ticket.create({
+    title: 'Test concert',
+    price: 420
+  });
+
+  const response = await request(app)
+    .post('/api/orders')
+    .set('Cookie', getAuthCookie())
+    .send({ ticketId: ticket.id })
+    .expect(201);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
